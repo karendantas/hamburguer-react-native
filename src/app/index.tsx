@@ -1,11 +1,11 @@
-import { Text } from "react-native";
+import { View, Text } from "react-native";
 
 export default function App(){
     return(
-        <>
-            <Text className="text-purple-600">
+        <View className="pt-8 flex-1">
+            <Text>
                 Olá, mundo!r
             </Text>
-        </>
+        </View>
     )
 }
