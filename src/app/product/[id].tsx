@@ -1,5 +1,5 @@
 import { Image, Text, View } from "react-native";
-import { Link, useLocalSearchParams, useNavigation } from "expo-router"
+import { Link, Redirect, useLocalSearchParams, useNavigation } from "expo-router"
 
 import { PRODUCTS } from "@/utils/data/products";
 import { FormatCurrency } from "@/utils/functions/format-currency";
@@ -12,13 +12,18 @@ export default function Product(){
     const navigation = useNavigation()
     
     //pegando o produto atual
-    const product = PRODUCTS.filter((product) => product.id === id)[0]
+    const product = PRODUCTS.find((product) => product.id === id)
     
     function handleAddToCart (){
-        cartStore.add(product)
+        //com a exclamação, estamos garantindo manulamente que o product não é undefined
+        cartStore.add(product!)
         navigation.goBack()
     }
-    console.log(cartStore.products)
+    
+    if (!product){
+        return (<Redirect href= "/" />)
+    }
+    
     return (
         <View className="flex-1">
             <Image source = {product.cover} className="w-full h-52" resizeMode="cover"/> 

@@ -1,4 +1,5 @@
 import { Image, Pressable, Text, View } from "react-native";
+import { Link } from "expo-router";
 import {Feather} from "@expo/vector-icons"
 import colors from "tailwindcss/colors";
 
@@ -19,12 +20,14 @@ export function Header ({title, cartQuantity=0}:Props){
 
             {
                 cartQuantity > 0 && (
-                <Pressable className="relative">
-                    <View className="bg-lime-300 w-4 h-4 rounded-full items-center justify-center absolute top-0 z-10 -right-1.5">
-                        <Text className="text-slate-900 text-xs font-bold"> {cartQuantity} </Text>
-                    </View>
-                    <Feather name = "shopping-bag" color = { colors.white } size={24}/>
-                </Pressable>
+                <Link href = "/cart" asChild>
+                    <Pressable className="relative">
+                        <View className="bg-lime-300 w-4 h-4 rounded-full items-center justify-center absolute top-0 z-10 -right-1.5">
+                            <Text className="text-slate-900 text-xs font-bold"> {cartQuantity} </Text>
+                        </View>
+                        <Feather name = "shopping-bag" color = { colors.white } size={24}/>
+                    </Pressable>
+                </Link>
                 )
             }
         </View>
