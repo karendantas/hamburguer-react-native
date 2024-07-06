@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { Pressable, PressableProps, Image, ImageProps, View, Text } from "react-native";
 
 type ProductDataProps = {
@@ -8,9 +9,9 @@ type ProductDataProps = {
 type ProductProps = PressableProps &{
     data: ProductDataProps
 }
-export function Product ({data, ...rest}:ProductProps){
+export const Product = forwardRef<PressableProps, ProductProps>(({data, ...rest}, ref) => {
     return(
-        <Pressable className="w-full flex-row items-center pb-4" {...rest}>
+        <Pressable className="w-full flex-row items-center pb-4" {...rest} ref = {ref}>
             <Image source = {data.thumbnail} className="w-20 h-20 rounder-md"/>
             <View className="flex-1 ml-3">
                 <Text className="text-slate-100 font-subtitle text-base flex-1"> {data.title} </Text>
@@ -19,4 +20,4 @@ export function Product ({data, ...rest}:ProductProps){
             </View>
         </Pressable>
     )
-}
+})
