@@ -1,4 +1,4 @@
-import "@/src/styles/global.css"
+import "@/styles/global.css"
 
 import { Slot } from 'expo-router'
 import { SafeAreaView, View } from "react-native"
