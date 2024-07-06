@@ -1,15 +1,30 @@
-import { Header } from "@/components/header"
-import { FlatList, View } from "react-native"
+import { useState, useRef } from "react"
+import { FlatList, View, SectionList, Text } from "react-native"
 
-import {CATEGORIES} from '@/utils/data/products'
+import {CATEGORIES, MENU} from '@/utils/data/products'
+
 import { CategoryButton } from "@/components/category-button"
-import { useState } from "react"
+import { Header } from "@/components/header"
+import { Product } from "@/components/product"
 
 export default function Home (){
     const [categorySelected, setCategorySelected] = useState(CATEGORIES[0])
 
+    //pegando a referencia da SectionList
+    const sectionListRef = useRef<SectionList>(null)
     function ChangeCategorySelected (selectedCategory:string){
         setCategorySelected(selectedCategory)
+
+        //capturando index do item atual
+        const sectionIndex = CATEGORIES.findIndex( (category) => category === selectedCategory)
+        
+        if (sectionListRef.current){
+            sectionListRef.current.scrollToLocation({
+                animated: true,
+                sectionIndex,
+                itemIndex: 0
+            })
+        }
     }
     return (
         <View className="flex-1">
@@ -30,6 +45,22 @@ export default function Home (){
                 contentContainerStyle = {{gap: 12, paddingHorizontal:20}}
                 showsHorizontalScrollIndicator = {false}
 
+            />
+
+            <SectionList
+                ref = {sectionListRef}
+                sections={MENU}
+                keyExtractor={(item) => item.id}
+                stickySectionHeadersEnabled = {false}
+                renderItem={({item}) => (
+                    <Product data = {item} />
+                )}
+                renderSectionHeader={ ({section: {title} }) => (
+                    <Text className="text-xl text-white font-heading mt-8 mb-3"> {title} </Text>
+                )}
+                className="flex-1 p-5"
+                showsVerticalScrollIndicator = {false}
+                contentContainerStyle = {{paddingBottom: 100}}
             />
         </View>
     )
