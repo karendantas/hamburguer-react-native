@@ -7,6 +7,7 @@ type Props = {
     cartQuantity?: number
 }
 export function Header ({title, cartQuantity=0}:Props){
+    
     return (
         <View className="mt-9 flex-row items-center border-b border-slate-700 pb-5 mx-5">
             <View className="flex-1">

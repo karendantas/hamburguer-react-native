@@ -7,8 +7,10 @@ import { CategoryButton } from "@/components/category-button"
 import { Header } from "@/components/header"
 import { Product } from "@/components/product"
 import { Link } from "expo-router"
+import { useCartStore } from "@/stores/cart-stores"
 
 export default function Home (){
+    const cartStore = useCartStore()
     const [categorySelected, setCategorySelected] = useState(CATEGORIES[0])
 
     //pegando a referencia da SectionList
@@ -27,9 +29,12 @@ export default function Home (){
             })
         }
     }
+
+    //pegando a quantitdade de produtos no carrinho
+    const cartQuantity = cartStore.products.reduce((total, product) =>  total + product.quantity, 0)
     return (
         <View className="flex-1">
-            <Header title = "faça seu pedido"/>
+            <Header title = "faça seu pedido" cartQuantity={cartQuantity}/>
 
             <FlatList 
                 data={CATEGORIES}

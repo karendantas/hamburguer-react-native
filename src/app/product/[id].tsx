@@ -1,16 +1,24 @@
 import { Image, Text, View } from "react-native";
-import { Link, useLocalSearchParams } from "expo-router"
+import { Link, useLocalSearchParams, useNavigation } from "expo-router"
 
 import { PRODUCTS } from "@/utils/data/products";
 import { FormatCurrency } from "@/utils/functions/format-currency";
 import { Button } from "@/components/button";
-export default function Product(){
+import { useCartStore } from "@/stores/cart-stores";
 
+export default function Product(){
+    const cartStore = useCartStore()
     const {id} = useLocalSearchParams()
+    const navigation = useNavigation()
     
     //pegando o produto atual
     const product = PRODUCTS.filter((product) => product.id === id)[0]
-    console.log(product)
+    
+    function handleAddToCart (){
+        cartStore.add(product)
+        navigation.goBack()
+    }
+    console.log(cartStore.products)
     return (
         <View className="flex-1">
             <Image source = {product.cover} className="w-full h-52" resizeMode="cover"/> 
@@ -29,7 +37,7 @@ export default function Product(){
             </View>
 
             <View className="p-5 pb-8 gap-5">
-                <Button>
+                <Button onPress={handleAddToCart}>
                     <Button.Text> Adicinar ao carrinho </Button.Text>
                 </Button>
 
